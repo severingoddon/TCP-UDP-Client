@@ -4,13 +4,14 @@ import java.util.Scanner;
 
 /**
  * Diese Klasse erstellt einen TCP Client und verbindet ihn mit einem TCP Server der gegeben IP Adresse.
- * Es ist ein Scanner integriert, der Konsoleneingaben aufnimmt. Die Kommunikation funktioniert im Ping-Pong Modus,
- * dh es kann immer der Server eine Nachricht schreiben und dann der Client immer abwechselnd. (Applikationsbedingt, um
- * das zu beheben müsste man Multithreading machen)
+ * Es ist ein Scanner integriert, der Konsoleneingaben aufnimmt.
+ * Das Programm läuft auf multithreading, dh senden und empfangen sind einzelne Threads.
  *
  * @author Severin Goddon
  */
 public class TCPClient {
+    private Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
         TCPClient client = new TCPClient();
         try {
@@ -28,16 +29,34 @@ public class TCPClient {
 
     public void chatStarten(Socket socket) throws IOException {
         String nachricht = null;
-        Scanner scanner = new Scanner(System.in);
         PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
-        while (true) {
-            nachricht = scanner.nextLine();
-            printWriter.print(nachricht);
-            printWriter.flush();
-            System.out.println(getMessage(socket));
-        }
+        new Thread(() -> {
+            try {
+                listen(socket);
+            }catch (IOException e){
+                System.out.println("upsala");
+            }
+        }).start();
+
+        new Thread(() -> {
+            send(socket, printWriter);
+        }).start();
 
     }
+
+    public void listen(Socket socket) throws IOException {
+        while (true){
+            System.out.println(getMessage(socket));
+        }
+    }
+    public void send(Socket socket, PrintWriter printWriter){
+        while (true){
+            String nachricht = this.scanner.nextLine();
+            printWriter.print(nachricht);
+            printWriter.flush();
+        }
+    }
+
     public String getMessage(Socket socket) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         char[] buffer = new char[2000]; //maximale Paketlänge
