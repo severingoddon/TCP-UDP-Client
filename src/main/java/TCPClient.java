@@ -30,7 +30,7 @@ public class TCPClient {
     public void chatStarten(Socket socket) throws IOException {
         String nachricht = null;
         PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
-        new Thread(() -> {
+        new Thread(() -> { //empfangen thread
             try {
                 listen(socket);
             }catch (IOException e){
@@ -38,8 +38,8 @@ public class TCPClient {
             }
         }).start();
 
-        new Thread(() -> {
-            send(socket, printWriter);
+        new Thread(() -> { //senden thread
+            send(printWriter);
         }).start();
 
     }
@@ -49,7 +49,7 @@ public class TCPClient {
             System.out.println(getMessage(socket));
         }
     }
-    public void send(Socket socket, PrintWriter printWriter){
+    public void send(PrintWriter printWriter){
         while (true){
             String nachricht = this.scanner.nextLine();
             printWriter.print(nachricht);
