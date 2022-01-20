@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * Diese Klasse erstellt einen TCP Client und verbindet ihn mit einem TCP Server der gegeben IP Adresse.
  * Es ist ein Scanner integriert, der Konsoleneingaben aufnimmt.
- * Das Programm läuft auf multithreading, dh senden und empfangen sind einzelne Threads.
+ * Das Programm läuft multithreaded, dh senden und empfangen sind einzelne Threads.
  *
  * @author Severin Goddon
  */
@@ -21,7 +21,7 @@ public class TCPClient {
         }
     }
     public void test() throws IOException {
-        String ip = "192.168.8.164"; // <----- ipadresse hier eingeben 8====D
+        String ip = "192.168.8.164"; // <----- ipadresse hier eingeben
         int port = 6969;
         Socket socket = new Socket(ip,port); // mit dem Server verbinden
         chatStarten(socket);
@@ -34,7 +34,7 @@ public class TCPClient {
             try {
                 listen(socket);
             }catch (IOException e){
-                System.out.println("upsala");
+                System.out.println("error");
             }
         }).start();
 

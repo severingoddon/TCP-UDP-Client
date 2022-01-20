@@ -4,7 +4,7 @@ import java.net.*;
 /**
  * Diese Klasse erstellt einen einfachen UDP CLient, der lediglich eine Nachricht per UDP an einen Server der
  * gegeben IP sendet. Danach sendet der Server sie wieder zurück und der Client printet. Es wird KEINE Verbindung
- * aufgebaut weil das Shit UDP das nicht tut
+ * aufgebaut
  * @author Severin Goddon
  */
 public class UDPClient {

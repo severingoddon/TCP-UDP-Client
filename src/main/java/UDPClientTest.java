@@ -10,6 +10,6 @@ import java.io.IOException;
 public class UDPClientTest {
     public static void main(String[] args) throws IOException {
         UDPClient client = new UDPClient(); //den client erstellen
-        client.sendeNachricht("Hi Dickhead ich bins der UDP Client"); //eine Nachricht senden
+        client.sendeNachricht("Hi, it's the UDP client! "); //eine Nachricht senden
     }
 }
